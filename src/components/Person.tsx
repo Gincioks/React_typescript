@@ -1,6 +1,7 @@
 import * as React from "react";
 
 type Props = {
+  click: React.MouseEventHandler;
   name: string;
   age: number;
   changed: React.ChangeEventHandler<HTMLInputElement>;
@@ -12,7 +13,7 @@ const Person = (props: Props): JSX.Element => {
       <p>
         I'm {props.name} and {props.age} years old
       </p>
-      <input type="text" onChange={props.changed} value={props.name} />
+      <input type="text" onChange={props.changed} placeholder={props.name} />
     </div>
   );
 };

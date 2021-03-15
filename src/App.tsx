@@ -11,6 +11,13 @@ const app: React.FC = () => {
     showPersons: false,
   });
 
+  const togglePersonsHandler = () => {
+    setPersonsState({
+      ...personsState,
+      showPersons: true,
+    });
+  };
+
   const nameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPersonsState({
       persons: [
@@ -18,16 +25,37 @@ const app: React.FC = () => {
         { name: "David", age: 18 },
         { name: "Elyza", age: 48 },
       ],
-      ...personsState,
-    });
-  };
-
-  const togglePersonsHandler = () => {
-    setPersonsState({
-      ...personsState,
       showPersons: true,
     });
   };
+
+  const deletePersonHandler = (index: number) => {
+    const persons = personsState.persons;
+
+    persons.slice(index, 1);
+    setPersonsState({ persons: persons, ...personsState });
+  };
+
+  let persons = null;
+
+  if (personsState.showPersons) {
+    persons = (
+      <div>
+        {personsState.persons.map(
+          (person: { name: string; age: number }, index: number) => {
+            return (
+              <Person
+                click={() => deletePersonHandler(index)}
+                name={person.name}
+                age={person.age}
+                changed={nameChangeHandler}
+              />
+            );
+          }
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="App">
@@ -36,20 +64,7 @@ const app: React.FC = () => {
       <button onClick={togglePersonsHandler} className="toggle_persons">
         Toggle Persons
       </button>
-      {personsState.showPersons ? (
-        <div>
-          <Person
-            name={personsState.persons[0].name}
-            age={personsState.persons[0].age}
-            changed={nameChangeHandler}
-          />
-          <Person
-            name={personsState.persons[1].name}
-            age={personsState.persons[1].age}
-            changed={nameChangeHandler}
-          />
-        </div>
-      ) : null}
+      {persons}
     </div>
   );
 };
