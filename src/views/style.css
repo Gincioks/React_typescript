@@ -1,0 +1,23 @@
+.App {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  height: 30%;
+  text-align: center;
+}
+.toggle_persons {
+  width: 20%;
+  border: 2px solid cadetblue;
+  color: black;
+  font-size: 18px;
+}
+.person {
+  display: block;
+  margin: 0 auto;
+  margin-top: 5%;
+  width: 80%;
+  height: 30%;
+  border: 2px solid black;
+  text-align: center;
+  padding-bottom: 2%;
+}
