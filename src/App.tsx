@@ -4,36 +4,40 @@ import Person from "./components/Person";
 const app: React.FC = () => {
   const [personsState, setPersonsState] = React.useState({
     persons: [
-      { name: "Max", age: 28 },
-      { name: "David", age: 18 },
-      { name: "Elyza", age: 48 },
+      { id: 0, name: "Max", age: 28 },
+      { id: 1, name: "David", age: 18 },
+      { id: 2, name: "Elyza", age: 48 },
     ],
     showPersons: false,
   });
 
   const togglePersonsHandler = () => {
+    const doesShow = personsState.showPersons;
     setPersonsState({
       ...personsState,
-      showPersons: true,
+      showPersons: !doesShow,
     });
   };
 
-  const nameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const nameChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id
+  ) => {
+    let persons = personsState.persons;
+    persons[id] = { id: id, name: event.target.value, age: 28 };
     setPersonsState({
-      persons: [
-        { name: event.target.value, age: 28 },
-        { name: "David", age: 18 },
-        { name: "Elyza", age: 48 },
-      ],
+      persons: persons,
       showPersons: true,
     });
   };
 
   const deletePersonHandler = (index: number) => {
-    const persons = personsState.persons;
-
-    persons.slice(index, 1);
-    setPersonsState({ persons: persons, ...personsState });
+    let persons = personsState.persons;
+    const inde = persons.indexOf(persons[index]);
+    if (inde > -1) {
+      persons.splice(inde, 1);
+    }
+    setPersonsState({ persons: persons, showPersons: true });
   };
 
   let persons = null;
@@ -48,7 +52,8 @@ const app: React.FC = () => {
                 click={() => deletePersonHandler(index)}
                 name={person.name}
                 age={person.age}
-                changed={nameChangeHandler}
+                changed={(event) => nameChangeHandler(event, index)}
+                key={index}
               />
             );
           }
